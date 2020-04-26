@@ -2,8 +2,8 @@
 
 var computerChoice = "";
 var userGuess = "";
-var numberGuesses = 10;
-var lettersGuessed = [];
+var numGuesses = 10;
+var guesses = [];
 var wins = 0;
 var losses = 0;
 
@@ -18,8 +18,8 @@ function randomLetterChoice () {
 }
 
 function resetGame () {
-    numberGuesses=10;
-    lettersGuessed=[];
+    numGuesses=10;
+    guesses=[];
     randomLetterChoice();
 }
 
@@ -43,10 +43,10 @@ document.onkeyup = function (event) {
 
         // if user guesses incorrectly
         if (userGuess !== computerChoice) {
-            numberGuesses--;
-                console.log("Number Guesses: " + numberGuesses);
-            lettersGuessed.push(userGuess);
-                console.log(lettersGuessed);
+            numGuesses--;
+                console.log("Number Guesses: " + numGuesses);
+            guesses.push(userGuess);
+                console.log(guesses);
 
         // if user guesses correctly
         } if(userGuess === computerChoice) {
@@ -55,7 +55,7 @@ document.onkeyup = function (event) {
                 console.log("Wins: " + wins);
             resetGame();
         // if user runs out of guesses
-        } if(numberGuesses === 0) {
+        } if(numGuesses === 0) {
             alert("You Lose! The correct guess was " + computerChoice + "! Try again!");
             losses++;
                 console.log("Losses: " + losses);
@@ -71,7 +71,7 @@ document.onkeyup = function (event) {
     // Access HTML Elements
     document.getElementById("wins-text").textContent = "Wins: " + wins;
     document.getElementById("losses-text").textContent = "Losses: " + losses;
-    document.getElementById("number-text").textContent = "Guesses Left: " + numberGuesses;
-    document.getElementById("letters-text").textContent = "Your Guesses So Far: " + lettersGuessed;
+    document.getElementById("number-text").textContent = "Guesses Left: " + numGuesses;
+    document.getElementById("guesses-text").textContent = "Your Guesses So Far: " + guesses;
     
 };

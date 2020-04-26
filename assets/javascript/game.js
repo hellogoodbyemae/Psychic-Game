@@ -18,7 +18,7 @@ function randomLetterChoice () {
 }
 
 function resetGame () {
-    numgerGuesses=10;
+    numberGuesses=10;
     lettersGuessed=[];
     randomLetterChoice();
 }

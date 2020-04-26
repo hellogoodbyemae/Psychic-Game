@@ -1,86 +1,77 @@
+// Variables
+
+var computerChoice = "";
+var userGuess = "";
+var numberGuesses = 10;
 var lettersGuessed = [];
-
-var guessesLeft = 10;
-
 var wins = 0;
+var losses = 0;
 
-var computerGuess =
-    String.fromCharCode(
-        Math.round(Math.random() * 26) + 97
-    );
+var letters = [
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+];
 
-console.log(computerGuess);
+// Functions
 
-document.onkeydown = function(event) {
-    var keyPress = (String.fromCharCode(event.keyCode)).toLowerCase();
-
-    addLetter(keyPress);
-
+function randomLetterChoice () {
+    return computerChoice = letters[Math.floor(Math.random()*letters.length)];
 }
 
-function addLetter (usersKeypress) {
+function resetGame () {
+    numgerGuesses=10;
+    lettersGuessed=[];
+    randomLetterChoice();
+}
 
-    var repeatGuess = lettersGuessed.some(function(item){
-        return item === usersKeypress;
-    })
+// Main Process
 
-    if (repeatGuess) {
-        alert(usersKeypress + " already guessed. Try again!");
+// Call Function to Select Random Letter
+randomLetterChoice();
+    console.log("Computer Letter: " + computerChoice);
 
-    } else {
-        lettersGuessed.push(usersKeypress);
-        console.log(lettersGuessed);
+// User selects letter with onkeyup
+document.onkeyup = function (event) {
 
-        showLettersGuessed();
-        guessMatch(usersKeypress);
+    var userGuess = event.key.toLowerCase();
+        console.log("Computer Letter: " + computerChoice);
+        console.log("User Guess: " + userGuess);
+
+    // if userGuess key selection is in letter array
+
+
+    if (letters.indexOf(userGuess.toLowerCase()) !== -1) {
+
+        // if user guesses incorrectly
+        if (userGuess !== computerChoice) {
+            numberGuesses--;
+                console.log("Number Guesses: " + numberGuesses);
+            lettersGuessed.push(userGuess);
+                console.log(lettersGuessed);
+
+        // if user guesses correctly
+        } if(userGuess === computerChoice) {
+            alert("You Win! You correctly guessed " + computerChoice + "!");
+            wins++;
+                console.log("Wins: " + wins);
+            resetGame();
+        // if user runs out of guesses
+        } if(numberGuesses === 0) {
+            alert("You Lose! The correct guess was " + computerChoice + "! Try again!");
+            losses++;
+                console.log("Losses: " + losses);
+            resetGame();
+        }
     }
 
-}
-
-function showLettersGuessed() {
-    var tempStr = lettersGuessed.join(", ");
-    document.getElementById("playersGuess").innerHTML = tempStr;
-}
-
-function guessMatch (character) {
-
-    console.log(character);
-    console.log(computerGuess);
-
-    if (character === computerGuess) {
-
-        alert("You win!");
-        wins = wins + 1;
-        showWins();
-        resetVariables ();
-
-    } else if (guessesLeft === 0) {
-        alert("Aw man! Lets start over.");
-        resetVariables ();
-
-    } else {
-        guessesLeft = guessesLeft - 1;
-        showGuessesRemaining();
+    // if userGuess key selection is not in letter array
+    else {
+        alert("Only letters of the alphabet!");
     }
-}
 
-function showWins() {
-    document.getElementById("numWins").innerHTML = wins;
-}
-
-function showGuessesRemaining() {
-    document.getElementById("numGuesses").innerHTML = guessesLeft;
-}
-
-
-function resetVariables () {
-    lettersGuessed = [];
-    guessesLeft = 10;
-}
-
-function startGame() {
-    showGuessesRemaining();
-    showWins();
-}
-
-startGame();
+    // Access HTML Elements
+    document.getElementById("wins-text").textContent = "Wins: " + wins;
+    document.getElementById("losses-text").textContent = "Losses: " + losses;
+    document.getElementById("number-text").textContent = "Guesses Left: " + numberGuesses;
+    document.getElementById("letters-text").textContent = "Your Guesses So Far: " + lettersGuessed;
+    
+};
